@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  development:
+    container_name: '${POSTGRES_CONTAINER}'
+    image: postgres:12.1-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: '${POSTGRES_DB}'
+      POSTGRES_PASSWORD: ''
+      POSTGRES_USER: '${POSTGRES_USER}'
+    volumes:
+      - './volumes/db:/var/lib/postgresql/data'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # networks:
+    #   default:
+    #     aliases:
+    #       - postgres.service
