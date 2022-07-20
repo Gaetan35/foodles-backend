@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ClientsRepository } from 'src/database/repositories/clients.repository';
 import { ProductsRepository } from 'src/database/repositories/products.repository';
 import { Order } from './types/order';
@@ -47,15 +43,7 @@ export class ProductsService {
   }
 
   async orderProducts(dto: OrderProductsDTO) {
-    const CHECK_VIOLATION_CODE = '23514';
-    try {
-      await this.productsRepository.decreaseStocks(dto.orders);
-    } catch (e) {
-      if (e.code === CHECK_VIOLATION_CODE) {
-        throw new BadRequestException();
-      }
-      throw new InternalServerErrorException();
-    }
+    await this.productsRepository.decreaseStocks(dto.orders);
 
     const price = await this.computeOrderPrice(dto.orders);
     await this.clientsRepository.decreaseCredit(dto.clientId, price);

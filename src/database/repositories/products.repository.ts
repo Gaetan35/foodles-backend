@@ -1,8 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { DatabaseService } from '../config/database.service';
 import format from 'pg-format';
 import { Product } from 'src/products/types/product';
 import { Order } from 'src/products/types/order';
+
+const CHECK_VIOLATION_CODE = '23514';
 
 @Injectable()
 export class ProductsRepository {
@@ -16,13 +22,20 @@ export class ProductsRepository {
   }
 
   async decreaseStocks(orders: Order[]) {
-    await this.databaseService.query(
-      format(
-        'UPDATE product as p SET stock = p.stock - orders.quantity::int FROM (values %L) as orders (productid, quantity) WHERE p.id::text = orders.productid;',
-        orders.map((order) => [order.productId, order.quantity]),
-      ),
-      [],
-    );
+    try {
+      await this.databaseService.query(
+        format(
+          'UPDATE product as p SET stock = p.stock - orders.quantity::int FROM (values %L) as orders (productid, quantity) WHERE p.id::text = orders.productid;',
+          orders.map((order) => [order.productId, order.quantity]),
+        ),
+        [],
+      );
+    } catch (e) {
+      if (e.code === CHECK_VIOLATION_CODE) {
+        throw new BadRequestException();
+      }
+      throw new InternalServerErrorException();
+    }
   }
 
   async findByIds(productIds: string[]): Promise<Product[]> {
