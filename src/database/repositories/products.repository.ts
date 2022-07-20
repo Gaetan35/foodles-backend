@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { DatabaseService } from '../config/database.service';
 import format from 'pg-format';
-import { Product } from 'src/products/types/product';
+import { DatabaseProduct } from 'src/products/types/product';
 import { Order } from 'src/products/types/order';
 
 const CHECK_VIOLATION_CODE = '23514';
@@ -14,7 +14,7 @@ const CHECK_VIOLATION_CODE = '23514';
 export class ProductsRepository {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async findAll() {
+  async findAll(): Promise<DatabaseProduct[]> {
     return await this.databaseService.query(
       'SELECT * FROM product WHERE stock > 0',
       [],
@@ -38,7 +38,7 @@ export class ProductsRepository {
     }
   }
 
-  async findByIds(productIds: string[]): Promise<Product[]> {
+  async findByIds(productIds: string[]): Promise<DatabaseProduct[]> {
     return await this.databaseService.query(
       'SELECT id, price FROM product WHERE id = ANY($1::uuid[])',
       [productIds],

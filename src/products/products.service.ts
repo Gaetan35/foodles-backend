@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ClientsRepository } from 'src/database/repositories/clients.repository';
-import { ProductsRepository } from 'src/database/repositories/products.repository';
+import { ClientsRepository } from '../database/repositories/clients.repository';
+import { ProductsRepository } from '../database/repositories/products.repository';
 import { Order } from './types/order';
 import { OrderProductsDTO } from './types/orderProducts.dto';
 
