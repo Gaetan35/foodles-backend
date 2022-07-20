@@ -8,4 +8,11 @@ export class ClientsRepository {
   async findAll() {
     return await this.databaseService.query('SELECT * FROM client', []);
   }
+
+  async decreaseCredit(clientId: string, amount: number) {
+    return await this.databaseService.query(
+      'UPDATE client SET credit = credit - $1 WHERE id = $2',
+      [amount, clientId],
+    );
+  }
 }
