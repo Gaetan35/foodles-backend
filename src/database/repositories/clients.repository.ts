@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { Client } from 'src/clients/types/client';
 import { DatabaseService } from '../config/database.service';
 
 @Injectable()
 export class ClientsRepository {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async findAll() {
+  async findAll(): Promise<Client[]> {
     return await this.databaseService.query('SELECT * FROM client', []);
   }
 
