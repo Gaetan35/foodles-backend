@@ -15,7 +15,15 @@ export class ProductsService {
     private readonly clientsRepository: ClientsRepository,
   ) {}
   async getProducts() {
-    return this.productsRepository.findAll();
+    return this.productsRepository.findAll().then((products) =>
+      products.map((product) => ({
+        id: product.id,
+        description: product.description,
+        imageUrl: product.imageurl,
+        price: product.price,
+        stock: product.stock,
+      })),
+    );
   }
 
   private async computeOrderPrice(orders: Order[]) {
