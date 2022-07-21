@@ -1,0 +1,52 @@
+Your task is to create a small website where our customers can order our delicious dishes.
+
+You can choose the stack you want but need to develop both the front end and the backend.
+
+To simplify the problem you don't need to handle signup and login.
+
+Instead you should do the following:
+- Create in database a client model with the following fields: id, email, credit
+- Create a bunch of customers manually in database (this replaces signup)
+- On the interface add a select field to chose which customer you want to use (this replaces login)
+
+You will find screenshots explaining what the site should look like in the screenshots directory
+
+1 Main no customer
+When the customer lands on our site they can see the products available with their respective prices
+Product pictures are in the images folder
+Each product has a button to add it to the basket
+On the top bar there is a select input that lets you type in the customer name that you want to use
+
+2 Main customer selection
+When you type in the customer name you can choose which one you want to use from a list displaying the credit
+of each customer
+
+3 Main customer selected
+Once you select a customer their email and credit appears on the select box and it's the customer
+that is considered logged in
+
+4 One item in basket
+When you click on the add to cart button the following happens:
+- An overlay appears on the product image showing how many are in the cart
+- The add to cart button is replaced with plus and minus signs to adjust quantity
+- A basket icon appears on the top right corner showing the total price of the Basket
+
+5 Two items Basket
+Similar to the previous one, just to give you a better idea of how things look
+
+6 Stocks updated
+When the customer clicks on the basket the purchase is made with the following consequences:
+- No more items in Basket
+- Stocks are updated, the customer should only see products that are still in stock
+- The client credit decreases by the total amount of the basket and is updated in the customer select input
+
+Top up of the customer account is outside the scope of this project.
+
+Please provide a small summary explaining:
+- your tech choices
+- the assumptions you made
+- what you would have done differently if you had more time on this project
+
+Tests are welcome on either / both the backend and the frontend
+
+
